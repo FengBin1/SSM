@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ <properties resource="db.properties">
+ </properties>
+ <typeAliases>
+ 	 <package name="com.hsy.pojo"/>
+ </typeAliases>
+ <environments default="development">
+ <environment id="development">
+ <transactionManager type="JDBC"/>
+ <dataSource type="POOLED">
+ <property name="driver" value="${jdbc.driver}"/>
+ <property name="url" value="${jdbc.url}"/>
+ <property name="username" value="${jdbc.user}"/>
+ <property name="password" value="${jdbc.password}"/>
+ </dataSource>
+ </environment>
+ </environments>
+ <mappers>
+ <!-- 配置映射文件的地址，一般都是在映射文件中编写我们需要执行的SQL语句-->
+ <mapper class="com.hsy.mapper.OrderMapper"/> 
+ <mapper class="com.hsy.mapper.UserMapper"/> 
+
+ </mappers>
+</configuration>

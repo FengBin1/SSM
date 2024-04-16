@@ -1,55 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
- PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
- "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.hsy.mapper.UserMapper">
- 	<!-- 查询用户关联查询该用户产生的所有的订单 -->
- 	<resultMap id="select_user_orders" type="com.hsy.pojo.TUserAndOrders">
- 		<id column="id" property="id"/>
- 		<result column="name" property="name"/>
- 		<result column="birthday" property="birthday"/>
- 		<result column="sex" property="sex"/>
- 		<result column="address" property="address"/>
- 		<collection property="orders" ofType="com.hsy.pojo.TOrder">
- 			<id column="orderId" property="id"/>
-	 		<result column="t_number" property="t_number"/>
-	 		<result column="createtime" property="createtime"/>
-	 		<result column="note" property="note"/>
-	 		<result column="user_id" property="user_id"/>
- 		</collection>
- 	</resultMap>
- 	<select id="findUserAndOrders" resultMap="select_user_orders">
- 	select t_user.*,t_order.id orderId,t_number,createtime,note,user_id from t_user,t_order where t_user.id=t_order.user_id
- 	</select>
- 	<resultMap id="select_user_order_detail_item" type="com.hsy.pojo.TUserAndOrders">
- 		<id column="id" property="id"/>
- 		<result column="name" property="name"/>
- 		<result column="birthday" property="birthday"/>
- 		<result column="sex" property="sex"/>
- 		<result column="address" property="address"/>
- 		<collection property="toaos" ofType="com.hsy.pojo.TOrderAndOrderdetails">
- 			<id column="orderId" property="id"/>
-	 		<result column="t_number" property="t_number"/>
-	 		<result column="orderTime" property="createtime"/>
-	 		<result column="note" property="note"/>
-	 		<result column="user_id" property="user_id"/>
- 			<collection property="toais" ofType="com.hsy.pojo.TOrderdetailAndItem">
- 				<id column="detailId" property="id"/>
- 				<result column="order_id" property="order_id"/>
-		 		<result column="item_id" property="item_id"/>
-		 		<result column="item_num" property="item_num"/>
-		 		<association property="item" javaType="com.hsy.pojo.TItem">
-		 			<id column="itemId" property="id"/>
-	 				<result column="itemName" property="name"/>
-			 		<result column="price" property="price"/>
-			 		<result column="detail" property="detail"/>
-			 		<result column="itemTime" property="createtime"/>
-		 		</association>
- 			</collection>
- 		</collection>
- 	</resultMap>
- 	<select id="findUserAndOrderAndDetailsAndItem" resultMap="select_user_order_detail_item">
- 	select t_user.*,t_order.id orderId,t_number,t_order.createtime orderTime,note,user_id,t_orderdetail.id detailId,order_id,item_id,item_num,t_item.id itemId,t_item.name itemName,price,detail,t_item.createtime itemTime from t_user,t_order,t_orderdetail,t_item where t_user.id=t_order.user_id and t_order.id=t_orderdetail.order_id and t_orderdetail.item_id=t_item.id
- 	
- 	</select>
- </mapper>
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsy.mapper.UserMapper">
+    <!-- 查询用户关联查询该用户产生的所有的订单 -->
+    <resultMap id="select_user_orders" type="com.hsy.pojo.TUserAndOrders">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+        <collection property="orders" ofType="com.hsy.pojo.TOrder">
+            <id column="orderId" property="id"/>
+            <result column="t_number" property="t_number"/>
+            <result column="createtime" property="createtime"/>
+            <result column="note" property="note"/>
+            <result column="user_id" property="user_id"/>
+        </collection>
+    </resultMap>
+    <select id="findUserAndOrders" resultMap="select_user_orders">
+        select t_user.*, t_order.id orderId, t_number, createtime, note, user_id
+        from t_user,
+             t_order
+        where t_user.id = t_order.user_id
+    </select>
+    <resultMap id="select_user_order_detail_item" type="com.hsy.pojo.TUserAndOrders">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+        <collection property="toaos" ofType="com.hsy.pojo.TOrderAndOrderdetails">
+            <id column="orderId" property="id"/>
+            <result column="t_number" property="t_number"/>
+            <result column="orderTime" property="createtime"/>
+            <result column="note" property="note"/>
+            <result column="user_id" property="user_id"/>
+            <collection property="toais" ofType="com.hsy.pojo.TOrderdetailAndItem">
+                <id column="detailId" property="id"/>
+                <result column="order_id" property="order_id"/>
+                <result column="item_id" property="item_id"/>
+                <result column="item_num" property="item_num"/>
+                <association property="item" javaType="com.hsy.pojo.TItem">
+                    <id column="itemId" property="id"/>
+                    <result column="itemName" property="name"/>
+                    <result column="price" property="price"/>
+                    <result column="detail" property="detail"/>
+                    <result column="itemTime" property="createtime"/>
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findUserAndOrderAndDetailsAndItem" resultMap="select_user_order_detail_item">
+        select t_user.*,
+               t_order.id         orderId,
+               t_number,
+               t_order.createtime orderTime,
+               note,
+               user_id,
+               t_orderdetail.id   detailId,
+               order_id,
+               item_id,
+               item_num,
+               t_item.id          itemId,
+               t_item.name        itemName,
+               price,
+               detail,
+               t_item.createtime  itemTime
+        from t_user,
+             t_order,
+             t_orderdetail,
+             t_item
+        where t_user.id = t_order.user_id
+          and t_order.id = t_orderdetail.order_id
+          and t_orderdetail.item_id = t_item.id
+
+    </select>
+</mapper>
